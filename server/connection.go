@@ -29,6 +29,6 @@ func (server *Server) handleRequest(conn net.Conn) {
 	}
 
 	httpProtocol := server.parseRequest(buffer, n)
-	fmt.Printf("%v\n", httpProtocol)
+	fmt.Printf("%v\n%v\n", httpProtocol, *httpProtocol.URL)
 	conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
 }
