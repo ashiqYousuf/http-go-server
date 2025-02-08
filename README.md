@@ -1,1 +1,2 @@
-# http-go-server
+# HTTP server in golang from scratch
+
