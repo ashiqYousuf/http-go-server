@@ -13,7 +13,7 @@ func (server *Server) Accept() {
 			log.Fatal("error accepting connection:", err)
 		}
 
-		server.handleRequest(conn)
+		go server.handleRequest(conn)
 	}
 }
 
@@ -28,7 +28,15 @@ func (server *Server) handleRequest(conn net.Conn) {
 		return
 	}
 
-	httpProtocol := server.parseRequest(buffer, n)
-	fmt.Printf("%v\n%v\n", httpProtocol, *httpProtocol.URL)
-	conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
+	httpRequest := server.parseRequest(buffer, n)
+	httpResponse := server.routeRequests(httpRequest)
+	fmt.Printf("%v\n", httpRequest.URL)
+
+	bytesBuffer, err := server.convertHTTPProtocolToBytes(&httpResponse.HTTPProtocol)
+	if err != nil {
+		fmt.Println("error writing response:", err)
+		return
+	}
+
+	conn.Write(bytesBuffer)
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/ashiqYousuf/http-go-server/utils"
 )
 
-func (server *Server) parseRequest(buffer []byte, limit int) *HTTPProtocol {
+func (server *Server) parseRequest(buffer []byte, limit int) *HTTPRequest {
 	request := string(buffer[:limit])
 	requestSlice := strings.Split(request, "\r\n\r\n")
 	statusLine := strings.Split(requestSlice[0], "\r\n")[0]
@@ -15,18 +15,23 @@ func (server *Server) parseRequest(buffer []byte, limit int) *HTTPProtocol {
 
 	headerMap := utils.SliceToMap(headerSlice, ":")
 	url := server.parseURL(statusLine)
-	return NewHTTPProtocol(statusLine, requestBody, headerMap, url)
+	return NewHTTPRequest(statusLine, requestBody, headerMap, url)
 }
 
 func (server *Server) parseURL(statusLine string) *URL {
-	// statusLine: "GET /path/to/endpoint?q=123&p=asc&f=20 HTTP/1.1"
 	statusSlice := strings.Split(statusLine, " ")
 
 	requestMethod := statusSlice[0]
 	requestProtocol := statusSlice[2]
 	requestRoute := strings.Split(statusSlice[1], "?")
 
-	path, queryParams := requestRoute[0], requestRoute[1]
+	path, queryParams := "", ""
+	if len(requestRoute) > 1 {
+		path, queryParams = requestRoute[0], requestRoute[1]
+	} else {
+		path = requestRoute[0]
+	}
+
 	queryParamSlice := strings.Split(queryParams, "&")
 	queryParamMap := utils.SliceToMap(queryParamSlice, "=")
 
