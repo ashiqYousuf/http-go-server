@@ -1,10 +1,13 @@
 package server
 
 import (
+	"fmt"
 	"net"
+	"strconv"
 
-	"github.com/ashiqYousuf/http-go-server/internal/constants"
-	"github.com/ashiqYousuf/http-go-server/pkg/validator"
+	"github.com/ashiqYousuf/http-go-server/internal/protocol"
+	"github.com/ashiqYousuf/http-go-server/internal/status"
+	"github.com/ashiqYousuf/http-go-server/pkg/utils"
 )
 
 func (server *HTTPServer) acceptLoop() {
@@ -21,31 +24,24 @@ func (server *HTTPServer) acceptLoop() {
 func (server *HTTPServer) handleConnection(conn net.Conn) {
 	defer conn.Close()
 
-	buffer := make([]byte, constants.MAX_BUFFER_SIZE)
-	n, err := conn.Read(buffer)
+	httpRequest, err := protocol.ParseRequest(conn)
 	if err != nil {
 		server.ErrorLogger.Println("error reading connection, err:", err)
-		// TODO:
-		return
 	}
 
-	if validator.BufferExceeded(n, constants.MAX_BUFFER_SIZE) {
-		server.ErrorLogger.Println("error reading connection, err:", err)
-		// TODO:
-		return
-	}
+	fmt.Printf("REQUEST:\n%v\n%v\n", httpRequest.URL, httpRequest.HTTPProtocol)
 
-	// 	httpRequest := server.parseRequest(buffer, n)
-	// 	httpResponse := server.routeRequests(httpRequest)
-	// 	fmt.Printf("%v\n", httpRequest.URL)
+	response := "Hello, World!"
+	httpProtocol := protocol.NewHTTPProtocol(map[string]string{
+		"Content-Type":   "text/plain",
+		"Content-Length": strconv.Itoa(len(response)),
+	}, response)
 
-	// 	bytesBuffer, err := server.convertHTTPProtocolToBytes(&httpResponse.HTTPProtocol)
-	// 	if err != nil {
-	// 		fmt.Println("error writing response:", err)
-	// 		return
-	// 	}
+	httpResponse := protocol.NewHTTPResponse(httpProtocol, status.StatusOK)
+	responseBytes, _ := protocol.HTTPResponseToBytes(httpResponse)
+	utils.WriteBytes(conn, responseBytes)
 
-	// 	conn.Write(bytesBuffer)
-	// }
-
+	// TODO:- parse requests
+	// Do routing
+	// Server HTTP Responses
 }

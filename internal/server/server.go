@@ -6,6 +6,10 @@ import (
 	"net"
 )
 
+type Server interface {
+	ListenAndServe()
+}
+
 type HTTPServer struct {
 	Addr        string
 	ErrorLogger *log.Logger

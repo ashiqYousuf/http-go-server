@@ -17,9 +17,6 @@ const (
 
 	StatusInternalServerError Status = 500
 	StatusNotImplemented      Status = 501
-	StatusBadGateway          Status = 502
-	StatusServiceUnavailable  Status = 503
-	StatusGatewayTimeout      Status = 504
 )
 
 func (s Status) String() string {
@@ -48,12 +45,6 @@ func (s Status) String() string {
 		return "Internal Server Error"
 	case StatusNotImplemented:
 		return "Not Implemented"
-	case StatusBadGateway:
-		return "Bad Gateway"
-	case StatusServiceUnavailable:
-		return "Service Unavailable"
-	case StatusGatewayTimeout:
-		return "Gateway Timeout"
 	default:
 		return "Unknown Status"
 	}
