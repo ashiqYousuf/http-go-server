@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"net"
 	"strconv"
 
@@ -28,7 +27,7 @@ func (server *HTTPServer) handleConnection(conn net.Conn) {
 		server.ErrorLogger.Println("error reading connection, err:", err)
 	}
 
-	fmt.Printf("REQUEST:\n%v\n%v\n", httpRequest.URL, httpRequest.HTTPProtocol)
+	server.InfoLogger.Printf("PROTOCOL: %s METHOD: %s PATH: %s PARAMS: %v\n", httpRequest.Protocol, httpRequest.Method, httpRequest.Path, httpRequest.QueryMap)
 
 	response := "Hello, World!"
 	httpProtocol := protocol.NewHTTPProtocol(map[string]string{
