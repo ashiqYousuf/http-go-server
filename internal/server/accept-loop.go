@@ -26,9 +26,11 @@ func (server *HTTPServer) handleConnection(conn net.Conn) {
 	if err != nil {
 		server.ErrorLogger.Println("error reading connection, err:", err)
 	}
-
+	// TODO: Remove
 	server.InfoLogger.Printf("PROTOCOL: %s METHOD: %s PATH: %s PARAMS: %v\n", httpRequest.Protocol, httpRequest.Method, httpRequest.Path, httpRequest.QueryMap)
 
+	// TODO:- Remove all the jazz after routing algorithm is complete
+	// Following is for testing purposes only
 	response := "Hello, World!"
 	httpProtocol := protocol.NewHTTPProtocol(map[string]string{
 		"Content-Type":   "text/plain",

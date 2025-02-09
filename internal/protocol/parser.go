@@ -7,8 +7,8 @@ import (
 	"github.com/ashiqYousuf/http-go-server/internal/constants"
 	"github.com/ashiqYousuf/http-go-server/internal/httperrors"
 	http_utils "github.com/ashiqYousuf/http-go-server/internal/utils"
+	"github.com/ashiqYousuf/http-go-server/pkg/utils"
 	"github.com/ashiqYousuf/http-go-server/pkg/validator"
-	"github.com/ashiqYousuf/http-go-server/utils"
 )
 
 func ParseRequest(conn net.Conn) (*HTTPRequest, error) {

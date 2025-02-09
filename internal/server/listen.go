@@ -9,6 +9,7 @@ func (server *HTTPServer) ListenAndServe() {
 	}
 	defer listener.Close()
 
+	// TODO:- Remove
 	server.InfoLogger.Printf("server is listening on addr %s\n", server.Addr)
 
 	server.Listener = &listener

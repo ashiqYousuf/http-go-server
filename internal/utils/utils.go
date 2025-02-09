@@ -6,7 +6,7 @@ import (
 
 	"github.com/ashiqYousuf/http-go-server/internal/constants"
 	"github.com/ashiqYousuf/http-go-server/internal/status"
-	"github.com/ashiqYousuf/http-go-server/utils"
+	"github.com/ashiqYousuf/http-go-server/pkg/utils"
 )
 
 func GetRequestLine(request string) string {
