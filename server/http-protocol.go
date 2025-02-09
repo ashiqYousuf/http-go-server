@@ -1,5 +1,11 @@
 package server
 
+type Route struct {
+	Callback func(*HTTPRequest) *HTTPResponse
+	Method   string
+	Path     string
+}
+
 type HTTPProtocol struct {
 	Status string
 	Body   string

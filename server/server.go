@@ -13,6 +13,7 @@ var (
 type Server struct {
 	Port     int
 	Listener net.Listener
+	Routes   []*Route
 }
 
 func NewServer(port int, host string) *Server {
@@ -25,5 +26,14 @@ func NewServer(port int, host string) *Server {
 	return &Server{
 		Port:     port,
 		Listener: listener,
+		Routes:   make([]*Route, 0),
 	}
+}
+
+func (server *Server) AddRoute(method string, path string, cb func(*HTTPRequest) *HTTPResponse) {
+	server.Routes = append(server.Routes, &Route{
+		Callback: cb,
+		Method:   method,
+		Path:     path,
+	})
 }

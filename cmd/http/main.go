@@ -11,5 +11,8 @@ func main() {
 
 	fmt.Println("server listening on ", fmt.Sprintf("%s:%d", "127.0.0.1", 8000))
 
+	// TODO:- Implement custom router
+	// server.AddRoute("GET", "/", service.Home)
+
 	server.Accept()
 }
