@@ -6,12 +6,12 @@ import (
 	"strings"
 
 	"github.com/ashiqYousuf/http-go-server/internal/constants"
-	"github.com/ashiqYousuf/http-go-server/pkg/utils"
+	http_utils "github.com/ashiqYousuf/http-go-server/internal/utils"
 )
 
 func HTTPResponseToBytes(httpResponse *HTTPResponse) ([]byte, error) {
 	buffer := new(bytes.Buffer)
-	_, err := fmt.Fprintf(buffer, "%s", utils.GetLineRequest(httpResponse.StatusCode))
+	_, err := fmt.Fprintf(buffer, "%s", http_utils.GetLineRequest(httpResponse.StatusCode))
 	if err != nil {
 		return nil, err
 	}

@@ -7,7 +7,6 @@ import (
 
 	"github.com/ashiqYousuf/http-go-server/internal/protocol"
 	"github.com/ashiqYousuf/http-go-server/internal/status"
-	"github.com/ashiqYousuf/http-go-server/pkg/utils"
 )
 
 func (server *HTTPServer) acceptLoop() {
@@ -39,7 +38,7 @@ func (server *HTTPServer) handleConnection(conn net.Conn) {
 
 	httpResponse := protocol.NewHTTPResponse(httpProtocol, status.StatusOK)
 	responseBytes, _ := protocol.HTTPResponseToBytes(httpResponse)
-	utils.WriteBytes(conn, responseBytes)
+	conn.Write(responseBytes)
 
 	// TODO:- parse requests
 	// Do routing

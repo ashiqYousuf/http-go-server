@@ -1,12 +1,7 @@
 package utils
 
 import (
-	"fmt"
-	"io"
 	"strings"
-
-	"github.com/ashiqYousuf/http-go-server/internal/constants"
-	"github.com/ashiqYousuf/http-go-server/internal/status"
 )
 
 func SliceToMap(slice []string, sep string) map[string]string {
@@ -19,13 +14,4 @@ func SliceToMap(slice []string, sep string) map[string]string {
 		}
 	}
 	return resultMap
-}
-
-func GetLineRequest(status status.Status) string {
-	return fmt.Sprintf("%s %d %s%s", constants.HTTP_VERSION, status, status.String(), constants.CRLF)
-}
-
-func WriteBytes(writer io.Writer, body []byte) error {
-	_, err := writer.Write(body)
-	return err
 }

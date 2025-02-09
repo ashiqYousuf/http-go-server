@@ -6,6 +6,7 @@ import (
 
 	"github.com/ashiqYousuf/http-go-server/internal/constants"
 	"github.com/ashiqYousuf/http-go-server/internal/httperrors"
+	http_utils "github.com/ashiqYousuf/http-go-server/internal/utils"
 	"github.com/ashiqYousuf/http-go-server/pkg/validator"
 	"github.com/ashiqYousuf/http-go-server/utils"
 )
@@ -26,29 +27,14 @@ func ParseRequest(conn net.Conn) (*HTTPRequest, error) {
 }
 
 func parseRequest(request string) *HTTPRequest {
-	requestLine := getRequestLine(request)
-	headers := getRequestHeaders(request)
-	body := getRequestBody(request)
+	requestLine := http_utils.GetRequestLine(request)
+	headers := http_utils.GetRequestHeaders(request)
+	body := http_utils.GetRequestBody(request)
 
 	url := parseURL(requestLine)
 
 	httpProtocol := NewHTTPProtocol(headers, body)
 	return NewHTTPRequest(httpProtocol, url)
-}
-
-func getRequestLine(request string) string {
-	requestSlice := strings.Split(request, "\r\n\r\n")
-	return strings.Split(requestSlice[0], "\r\n")[0]
-}
-
-func getRequestHeaders(request string) map[string]string {
-	requestSlice := strings.Split(request, "\r\n\r\n")
-	headerSlice := strings.Split(requestSlice[0], "\r\n")[1:]
-	return utils.SliceToMap(headerSlice, ":")
-}
-
-func getRequestBody(request string) string {
-	return strings.Split(request, "\r\n\r\n")[1]
 }
 
 func parseURL(requestLine string) *URL {
